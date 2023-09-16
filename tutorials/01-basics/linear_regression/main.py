@@ -37,9 +37,12 @@ for epoch in range(num_epochs):
     loss = criterion(outputs, targets)
     
     # Backward and optimize
-    optimizer.zero_grad()
-    loss.backward()
-    optimizer.step()
+    optimizer.zero_grad()   # pytorch default is to accumulate gradient, used for training RNNs or 
+                            # when we want to compute the gradient of the loss summed over multiple mini-batches
+
+    loss.backward()         # Backpropagation, substitutes the inputs into derivatives
+
+    optimizer.step()        # Updates the parameters
     
     if (epoch+1) % 5 == 0:
         print ('Epoch [{}/{}], Loss: {:.4f}'.format(epoch+1, num_epochs, loss.item()))
@@ -52,4 +55,4 @@ plt.legend()
 plt.show()
 
 # Save the model checkpoint
-torch.save(model.state_dict(), 'model.ckpt')
+#torch.save(model.state_dict(), 'model.ckpt')
